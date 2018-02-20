@@ -9,28 +9,20 @@
 using namespace std;
 
 int main(){
-	int num;
+	int width;
 	char c;
-
-	cin >> num >> c;
-	for(int i = 0;i < num;i++){
-		cout << c;
-	}
-	cout << endl;
-
-	for(int i = (num + 1)/2 - 2;i > 0;i--){
-		cout << c;
-		for(int j = 0;j < num-2;j++){
-			cout << " ";
+	cin >> width >> c;
+	int height = (width + 1)/2;
+	for(int i = 0;i < height;i++){
+		for(int j = 0;j < width;j++){
+			if(i ==0 || i == height-1 || j == 0 ||j == width-1){
+				cout << c;
+			}else{
+				cout << " ";
+			}
 		}
-		cout << c << endl;
+		cout << endl;
 	}
-	//
-	for(int i = 0;i < num;i++){
-		cout << c;
-	}
-	cout << endl;
-
     return 0;
 }
 
