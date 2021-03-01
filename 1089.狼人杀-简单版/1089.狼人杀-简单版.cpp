@@ -10,28 +10,63 @@
 
 using namespace std;
 
-int main(int argc, char* argv[]) {
-    int n;
-    cin >> n;
-    int x[n][n] = {0};
-    for (size_t i = 0; i < n; i++) {
-        for (size_t j = 0; j < n; j++) {
-            x[i][j] = 0;
-        }
-        string c;
-        cin >> c;
-        if (c[0] == '+') {
-            x[i][c[1] - '1'] = 1;
+bool islie(int* x, int i, int j, int c) {
+    // when i, j is wolf, judge whether c is lying.
+    int v = x[c];
+    if (v > 0) { // C think it's a good man.
+        v--;
+        if (v != i && v != j) {
+            return false;
         } else {
-            x[i][c[1] - '1'] = -1;
+            return true;
         }
-    }
-    for (size_t i = 0; i < n; i++) {
-        for (size_t j = 0; j < n; j++) {
-            cout << x[i][j] << " ";
-        }
-        cout << endl;
-    }
 
+    } else if (x[c] < 0) {
+        v = -(v + 1);
+        // C think it's a wolf
+        if (v == i || v == j) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
+
+int main(int argc, char* argv[]) {
+    int n = 0;
+    cin >> n;
+    int x[n] = {0};
+    for (size_t i = 0; i < n; i++) {
+        cin >> x[i];
+    }
+    // decide
+    int cnt = 0;
+    for (size_t i = 0; i < n; i++) {
+        for (size_t j = i + 1; j < n; j++) {
+            // if i, j = wolf
+            // then count the number
+            int jia   = 0;
+            int w_jia = 0;
+            // decide thether all the wolf lie
+            for (size_t k = 0; k < n; k++) {
+                bool res = islie(x, i, j, k);
+                if (res) {
+                    jia++;
+                    if (k == i || k == j) {
+                        w_jia++;
+                    }
+                }
+            }
+            // result
+            if (jia == 2 && w_jia == 1) {
+                cnt++;
+                cout << (i + 1) << " " << (j + 1) << endl;
+                return 0;
+            }
+        }
+    }
+    if (cnt == 0) {
+        cout << "No Solution" << endl;
+    }
     return 0;
 }
